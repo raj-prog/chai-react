@@ -1,1 +1,1 @@
-## React Project Series
+## React Projects Series
