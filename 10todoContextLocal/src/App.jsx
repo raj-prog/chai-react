@@ -15,6 +15,10 @@ function App() {
     );
   };
 
+  const deleteTodo = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
   return (
     <TodoProvider
       value={{ todos, addTodo, updatedTodo, deleteTodo, toggleComplete }}
