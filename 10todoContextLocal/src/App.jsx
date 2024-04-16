@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TodoProvider } from './contexts/TodoContext';
 import './App.css';
 
@@ -9,7 +9,7 @@ function App() {
     setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev]);
   };
 
-  const updatedTodo = (id, todo) => {
+  const updateTodo = (id, todo) => {
     setTodos((prev) =>
       prev.map((prevTodo) => (prevTodo.id === id ? todo : prevTodo))
     );
@@ -29,9 +29,21 @@ function App() {
     );
   };
 
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem('todos'));
+
+    if (todos && todos.length > 0) {
+      setTodos(todos);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
   return (
     <TodoProvider
-      value={{ todos, addTodo, updatedTodo, deleteTodo, toggleComplete }}
+      value={{ todos, addTodo, updateTodo, deleteTodo, toggleComplete }}
     >
       <div className='bg-[#172842] min-h-screen py-8'>
         <div className='w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white'>
